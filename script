@@ -1,4 +1,63 @@
-document.addEventListener("DOMContentLoaded", function () { const menuToggle = document.querySelector(".menu-toggle"); const navMenu = document.querySelector(".nav-menu"); menuToggle.addEventListener("click", function () {navMenu.classList.toggle("active");});});
-document.addEventListener('DOMContentLoaded',function(){function changeSlide(galeria,direction){const slider=document.getElementById(`slider-${galeria}`);const images=slider.querySelectorAll('img');let current=Array.from(images).findIndex(img=>img.classList.contains('active'));images[current].classList.remove('active');if(direction==='next'){current=(current+1)%images.length}else if(direction==='prev'){current=(current-1+images.length)%images.length}
-images[current].classList.add('active')} document.querySelectorAll('.prev').forEach(button=>{button.addEventListener('click',function(){const galeria=this.getAttribute('data-galeria');changeSlide(galeria,'prev')})});document.querySelectorAll('.next').forEach(button=>{button.addEventListener('click',function(){const galeria=this.getAttribute('data-galeria');changeSlide(galeria,'next')})})})
-(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n; w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t), m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)})(window,document,'script','https://cdn.jsdelivr.net/gh/corretornereu/cdn/mtc.js','mt'); mt('send', 'pageview');
+(function () {
+    document.addEventListener("DOMContentLoaded", function () {
+        // Menu Toggle
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navMenu = document.querySelector(".nav-menu");
+        
+        if (menuToggle && navMenu) {
+            menuToggle.addEventListener("click", function () {
+                navMenu.classList.toggle("active");
+            });
+        }
+        
+        // Galeria de Imagens
+        function changeSlide(galeria, direction) {
+            const slider = document.getElementById(`slider-${galeria}`);
+            if (!slider) return;
+
+            const images = slider.querySelectorAll("img");
+            let current = Array.from(images).findIndex(img => img.classList.contains("active"));
+            
+            if (current !== -1) {
+                images[current].classList.remove("active");
+            }
+
+            if (direction === "next") {
+                current = (current + 1) % images.length;
+            } else if (direction === "prev") {
+                current = (current - 1 + images.length) % images.length;
+            }
+            
+            images[current].classList.add("active");
+        }
+
+        document.querySelectorAll(".prev").forEach(button => {
+            button.addEventListener("click", function () {
+                const galeria = this.getAttribute("data-galeria");
+                if (galeria) changeSlide(galeria, "prev");
+            });
+        });
+
+        document.querySelectorAll(".next").forEach(button => {
+            button.addEventListener("click", function () {
+                const galeria = this.getAttribute("data-galeria");
+                if (galeria) changeSlide(galeria, "next");
+            });
+        });
+    });
+
+    // Mautic Tracking
+    (function (w, d, t, u, n, a, m) {
+        w["MauticTrackingObject"] = n;
+        w[n] = w[n] || function () {
+            (w[n].q = w[n].q || []).push(arguments);
+        };
+        a = d.createElement(t);
+        m = d.getElementsByTagName(t)[0];
+        a.async = 1;
+        a.src = u;
+        m.parentNode.insertBefore(a, m);
+    })(window, document, "script", "https://cdn.jsdelivr.net/gh/corretornereu/cdn/mtc.js", "mt");
+    
+    mt("send", "pageview");
+})();
